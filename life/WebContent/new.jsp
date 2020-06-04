@@ -1,0 +1,109 @@
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
+<%@page import="java.io.File"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SNS</title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="css/uikit/uikit.min.css">
+		<script src="js/uikit.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/new.css"/>
+		<script src="js/uikit-icons.min.js"></script>
+		<script src="js/jquery.js"></script>
+		<script>
+			function check(){
+				if(document.newform.projectname.value == ""){
+					alert("제목을 입력해주세요.");
+					return false;
+				}
+				if(document.newform.subject.value == ""){
+					alert("내용을 입력해주세요.");
+					return false;
+				}
+				if(document.newform.endtime.value == ""){
+					alert("사라지는일시를 입력해주세요.");
+					return false;
+				}
+				return true;
+				
+			}
+</script>
+	</head>
+	<body>
+		<c:if test="${empty user}">
+			<c:redirect url="login.jsp"/>
+		</c:if>
+		<jsp:include page="head.jsp" flush="flase"/>
+		<div class="uk-align-center uk-width-1-2">
+		<h2 class="uk-text-primary fonted">새 글 등록</h2>
+		<form id="newform" action="new" method="post" name="newform">
+			<ul class="uk-list uk-list-striped">
+				<li class="uk-margin-small-bottom">
+						<div class="uk-margin">
+				       		<label class="uk-form-label" for="form-stacked-text">글제목</label>
+				       			<div class="uk-form-controls">
+				            		<input class="uk-input" id="form-stacked-text" type="text" name="projectname" placeholder="글제목을 입력해주세요" maxlength="45">
+				       			</div>
+				       	</div>
+				</li>
+				<li class="uk-margin-small-bottom">
+					<div class="uk-margin">
+				        <label class="uk-form-label" for="form-stacked-text">내용</label>
+				       		<div class="uk-form-controls">
+				            	<input class="uk-input" id="form-stacked-text" type="text" name="subject" placeholder="내용을 입력해주세요" maxlength="45">
+				        	</div>
+				   	</div>
+				</li>
+				<li class="uk-margin-small-bottom">
+					<div class="uk-margin">
+				        <label class="uk-form-label" for="form-stacked-text">사진</label>
+				       		<div class="uk-form-controls">
+				            	<input class="uk-input" id="form-stacked-text" type="file" name="image" accept="image/*" value="사진을넣어주세요">
+				        	</div>
+				   	</div>
+				</li>
+				<li class="uk-margin-small-bottom">
+					<div class="uk-margin">
+				    	<label class="uk-form-label" for="form-stacked-text">타임라인에서 없어질 시간</label>
+				        	<div class="uk-form-controls">
+				            	<input class="uk-input" id="endtime" type="text" name="endtime" placeholder="사라질시간을 입력해주세요">
+								<script src="js/jquery.js"></script>
+							</div>
+					</div>
+						<script src="js/jquery.datetimepicker.full.min.js"></script>
+						<script>	
+					    	jQuery(document).ready(function () {
+					    	'use strict';
+							jQuery('#endtime').datetimepicker({
+								  language : 'ko',
+								  pickTime : false,
+								  defalutDate : new Date(),
+								  minDate: 0,
+								  maxDate: 0
+							});
+			    	  		});
+			    	
+			    	    function popup(){
+			    	    	window.open('searchmember','searchmember','width=400, height=500');
+			    	    }
+			        	</script> 
+			     </li>       
+			     <li class="uk-margin-small-bottom">
+			     	<div class="uk-margin">
+				    	<label class="uk-form-label" for="members">멤버 태그 (클릭)</label>
+				        	<div class="uk-form-controls">
+				           		<input class="uk-input" id="members" type="text" name="members" onclick="popup();" value="${user.id};">
+				        	</div>
+				   	</div>
+				</li>
+				<li>
+					<input type="submit" value="등록" onClick="return check()" class="uk-button uk-button-primary">
+				</li>	
+			</ul>
+		</form>   
+		</div>
+	</body>
+</html>
